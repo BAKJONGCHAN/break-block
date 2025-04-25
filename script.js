@@ -30,10 +30,19 @@ const restartGameBtn = document.getElementById('restartGame');
 const pauseBtn = document.getElementById('pauseBtn');
 const resumeBtn = document.getElementById('resumeBtn');
 const gameMessageEl = document.getElementById('gameMessage');
+// *** Add Touch Control Button Elements ***
+const touchLeftBtn = document.getElementById('touchLeftBtn');
+const touchRightBtn = document.getElementById('touchRightBtn');
+
 
 if (!scoreEl || !correctCountEl || !timerEl || !roundEl || !quizModal || !questionTextEl || !answerInput || !submitAnswerBtn || !feedbackEl || !gameOverScreen || !finalTimeEl || !resultsListEl || !restartGameBtn || !pauseBtn || !resumeBtn || !gameMessageEl) {
-     console.error("HTML 오류: 필요한 DOM 요소 중 일부가 없습니다. index.html의 ID를 확인하세요.");
+     console.error("HTML 오류: 필요한 기본 DOM 요소 중 일부가 없습니다. index.html의 ID를 확인하세요.");
 }
+// *** Check Touch Buttons Exist (Warn only) ***
+if (!touchLeftBtn || !touchRightBtn) {
+    console.warn("Touch control buttons not found in HTML.");
+}
+
 
 // --- Game Constants ---
 const PADDLE_HEIGHT = 15;
@@ -43,8 +52,7 @@ const PADDLE_MAX_WIDTH = 160;
 const PADDLE_SPEED = 8;
 const BALL_RADIUS = 8;
 const INITIAL_BALL_SPEED = 4;
-// *** FIX: Ball speed increased again by 10% ***
-const BALL_SPEED_MULTIPLIER = 0.968; // Previous 0.88 -> 0.88 * 1.1 = 0.968
+const BALL_SPEED_MULTIPLIER = 0.968; // Speed increased as requested
 const BASE_SPEED_X = INITIAL_BALL_SPEED * BALL_SPEED_MULTIPLIER;
 const BASE_SPEED_Y = INITIAL_BALL_SPEED * BALL_SPEED_MULTIPLIER;
 const BRICK_HEIGHT = 20;
@@ -79,8 +87,8 @@ let brickWidth;
 let bricks = [];
 let pills = [];
 const pillTypes = ['quiz', 'speed_up', 'speed_reset', 'multi_ball', 'paddle_grow', 'paddle_shrink'];
-// *** FIX: Adjusted pill probabilities again ***
-const pillProbabilities = [0.72, 0.056, 0.056, 0.056, 0.056, 0.056]; // Quiz: 72%, Others: ~5.6% each
+// Adjusted pill probabilities
+const pillProbabilities = [0.72, 0.056, 0.056, 0.056, 0.056, 0.056];
 const pillColors = {
     'quiz': '#5cb85c', 'speed_up': '#d9534f', 'speed_reset': '#ffffff',
     'multi_ball': '#5bc0de', 'paddle_grow': '#f0ad4e', 'paddle_shrink': '#777777'
@@ -109,7 +117,7 @@ function setupBricks(round) {
 
         let specialBrickIndices = new Set();
         const totalBricks = brickRowCount * brickColumnCount;
-        // *** FIX: Increased special brick percentage to ~42% ***
+        // Increased special brick percentage to ~42%
         const numSpecialBricks = Math.max(1, Math.floor(totalBricks * 0.42));
         while (specialBrickIndices.size < numSpecialBricks && specialBrickIndices.size < totalBricks) { specialBrickIndices.add(Math.floor(Math.random() * totalBricks)); }
 
@@ -241,11 +249,30 @@ function handleAnswerKeypress(e) { if (e.key === 'Enter' && quizModal && quizMod
 // --- Setup Event Listeners ---
 document.addEventListener('keydown', handleKeyDown);
 document.addEventListener('keyup', handleKeyUp);
+// Ensure elements exist before adding listeners
 if(pauseBtn) pauseBtn.addEventListener('click', pauseGame);
 if(resumeBtn) resumeBtn.addEventListener('click', resumeGame);
 if(submitAnswerBtn) submitAnswerBtn.addEventListener('click', submitAnswer);
 if(answerInput) answerInput.addEventListener('keypress', handleAnswerKeypress);
 if(restartGameBtn) restartGameBtn.addEventListener('click', startGame);
+
+// *** Touch Control Button Listeners (Added/Verified) ***
+if (touchLeftBtn && touchRightBtn) {
+    // --- Left Button ---
+    touchLeftBtn.addEventListener('touchstart', (e) => { e.preventDefault(); leftPressed = true; }, { passive: false });
+    touchLeftBtn.addEventListener('touchend', (e) => { leftPressed = false; });
+    touchLeftBtn.addEventListener('touchcancel', (e) => { leftPressed = false; });
+    touchLeftBtn.addEventListener('mousedown', (e) => { e.preventDefault(); leftPressed = true; });
+    touchLeftBtn.addEventListener('mouseup', (e) => { leftPressed = false; });
+    touchLeftBtn.addEventListener('mouseleave', (e) => { if (leftPressed) { leftPressed = false; } });
+    // --- Right Button ---
+    touchRightBtn.addEventListener('touchstart', (e) => { e.preventDefault(); rightPressed = true; }, { passive: false });
+    touchRightBtn.addEventListener('touchend', (e) => { rightPressed = false; });
+     touchRightBtn.addEventListener('touchcancel', (e) => { rightPressed = false; });
+    touchRightBtn.addEventListener('mousedown', (e) => { e.preventDefault(); rightPressed = true; });
+    touchRightBtn.addEventListener('mouseup', (e) => { rightPressed = false; });
+     touchRightBtn.addEventListener('mouseleave', (e) => { if (rightPressed) { rightPressed = false; } });
+}
 
 // --- Start the game ---
 function tryStartGame() {

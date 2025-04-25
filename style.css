@@ -1,5 +1,4 @@
 body {
-    /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
     font-family: 'Press Start 2P', cursive; /* Pixel Font */
     display: flex;
     flex-direction: column;
@@ -8,6 +7,8 @@ body {
     color: #fff; /* White text */
     margin: 0;
     padding-top: 15px;
+    /* Prevent background scrolling on touch */
+    overscroll-behavior-y: contain;
 }
 
 h1 {
@@ -24,6 +25,7 @@ h1 {
     margin-bottom: 10px;
     font-size: 0.9em; /* Smaller font for info */
     color: #ccc;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
 }
 
 .controls {
@@ -56,7 +58,41 @@ canvas {
     box-shadow: none; /* Remove shadow */
     image-rendering: pixelated; /* Force pixelated rendering */
     image-rendering: crisp-edges; /* Wider browser support */
+    max-width: 100%; /* Ensure canvas fits on smaller screens */
+    height: auto; /* Maintain aspect ratio */
 }
+
+/* Touch Controls Styling */
+.touch-controls {
+    width: 80%; /* Adjust width as needed */
+    max-width: 300px; /* Limit max width */
+    margin-top: 15px; /* Space above buttons */
+    display: flex;
+    justify-content: space-between; /* Space buttons apart */
+    user-select: none; /* Prevent text selection on buttons */
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10+ */
+    -webkit-tap-highlight-color: transparent; /* Remove tap highlight */
+}
+
+.touch-controls button {
+    font-family: 'Press Start 2P', cursive; /* Pixel Font */
+    font-size: 1.8em; /* Larger font size for icons */
+    padding: 15px 25px; /* Make buttons larger */
+    background-color: #555;
+    color: #fff;
+    border: 2px solid #888;
+    cursor: pointer;
+    box-shadow: 3px 3px #000; /* Pixel shadow */
+    touch-action: manipulation; /* Improve touch responsiveness */
+    border-radius: 0; /* Sharp corners */
+}
+
+.touch-controls button:active {
+    box-shadow: none;
+    transform: translate(3px, 3px);
+}
+
 
 /* Game Message Style */
 .game-message {
@@ -168,4 +204,28 @@ canvas {
     border: 1px solid #666;
     border-radius: 0;
     line-height: 1.4;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 850px) {
+    .game-info, .controls {
+        width: 95%;
+    }
+    h1 {
+        font-size: 1.2em;
+    }
+}
+
+@media (max-width: 600px) {
+     .game-info {
+        font-size: 0.8em;
+        justify-content: center; /* Center info items */
+    }
+     .game-info div {
+        margin: 2px 5px; /* Add some spacing */
+    }
+     .touch-controls button {
+        font-size: 1.5em;
+        padding: 12px 20px;
+    }
 }

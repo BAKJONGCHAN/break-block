@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>퀴즈 벽돌깨기 (픽셀 버전)</title>
+    <title>퀴즈 벽돌깨기 (픽셀+터치 버전)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
@@ -24,6 +24,11 @@
     </div>
 
     <canvas id="gameCanvas" width="800" height="600"></canvas>
+
+    <div class="touch-controls">
+        <button id="touchLeftBtn">◀</button>
+        <button id="touchRightBtn">▶</button>
+    </div>
 
     <div id="gameMessage" class="game-message"></div>
 
@@ -48,6 +53,6 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 </body>
 </html>
