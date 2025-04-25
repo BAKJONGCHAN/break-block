@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>퀴즈 벽돌깨기 (픽셀 버전)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>퀴즈 벽돌깨기</h1>
+    <div class="game-info">
+        <div id="score">SCORE: 0</div>
+        <div id="correct-count">QUIZ: 0 / 6</div>
+        <div id="timer">TIME: 0s</div>
+        <div id="round-display">ROUND: 1</div>
+    </div>
+
+    <div class="controls">
+        <button id="pauseBtn">PAUSE</button>
+        <button id="resumeBtn" style="display: none;">RESUME</button>
+    </div>
+
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
+
+    <div id="gameMessage" class="game-message"></div>
+
+    <div id="quizModal" class="modal">
+        <div class="modal-content">
+            <h2>QUIZ!</h2>
+            <p id="questionText"></p>
+            <input type="text" id="answerInput" placeholder="ANSWER">
+            <button id="submitAnswer">SUBMIT</button>
+            <p id="feedback"></p>
+        </div>
+    </div>
+
+    <div id="gameOverScreen" class="modal">
+        <div class="modal-content">
+            <h2>GAME OVER!</h2>
+            <p>모든 문제를 맞추셨습니다!</p>
+            <p id="finalTime"></p>
+            <h3>RESULTS:</h3>
+            <ul id="resultsList"></ul>
+            <button id="restartGame">RESTART</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
